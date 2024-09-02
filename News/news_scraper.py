@@ -19,31 +19,25 @@ if response.status_code == 200:
     # Parsen des HTML-Inhalts
     soup = BeautifulSoup(response.content, "html.parser")
     
-    # Finden aller grünen Boxen (diese haben normalerweise die Klasse "vevent")
+    # Finden aller grünen Boxen (div mit der Klasse 'vevent')
     green_boxes = soup.find_all("div", class_="vevent")
     
-    # Liste für die Begriffe mit Hyperlinks
-    linked_terms = []
+    # Liste für die extrahierten Sätze
+    sentences = []
     
     # Durch jede grüne Box iterieren
     for box in green_boxes:
-        # Finden aller <a>-Tags innerhalb der Box
-        links = box.find_all("a", href=True)
-        # Filtern der Begriffe mit Hyperlinks und deren Texte
-        for link in links:
-            term = link.text.strip()
-            if term:
-                linked_terms.append(term)
+        # Finden der Listenpunkte (li-Elemente)
+        list_items = box.find_all("li")
+        for item in list_items:
+            # Text des Listenelements extrahieren
+            sentence = item.get_text().strip()
+            if sentence:
+                sentences.append(sentence)
     
-    # Ausgabe der gefundenen Begriffe
-    #for term in linked_terms:
-     #   print(term)
+    # Ausgabe der extrahierten Sätze
+    for sentence in sentences:
+        print(sentence)
 else:
     print(f"Fehler beim Abrufen der Webseite: {response.status_code}")
-    
-
-search_string = "edit"
-
-# Liste für die Indizes, wo der String gefunden wird
-indices = [i for i, value in enumerate(linked_terms) if value == search_string]
 
