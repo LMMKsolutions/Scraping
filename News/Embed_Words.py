@@ -12,7 +12,7 @@ import tensorflow as tf
 from news_scraper import sentences
 
 
-text_input = [sentences[4]];
+text_input = [sentences[4],sentences[5]];
 preprocessor = hub.KerasLayer("https://kaggle.com/models/tensorflow/bert/TensorFlow2/en-uncased-preprocess/3")
 
 
@@ -25,4 +25,4 @@ outputs = encoder(encoder_inputs)
 pooled_output = outputs["pooled_output"]      # [batch_size, 768].
 sequence_output = outputs["sequence_output"]  # [batch_size, seq_length, 768].
 
-print(sequence_output)
+
